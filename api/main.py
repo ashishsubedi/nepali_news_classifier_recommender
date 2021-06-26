@@ -22,60 +22,94 @@ GET /api/random-news
 '''
 
 app = Flask(__name__)
+
+
 def split_token(x):
     return x.split(' ')
+
+
 clf = joblib.load('./models/svc_clf_pipeline.pkl')
 
-# with open('./models/svc_clf_pipeline.pkl','rb') as f:
-#     clf = pickle.load(f)
-# with open('svc_clf_test_set_72_acc.pkl','rb') as f:
-#     model = pickle.load(f)
-# with open('tfid_vectorizer.pkl','rb') as f:
-#     tfidfVectorizer = pickle.load(f)
-with open('./models/similarity_matrix.pkl','rb') as f:
+with open('./models/similarity_matrix.pkl', 'rb') as f:
     similarity_matrix = pickle.load(f)
 
-@app.route('/')
+
+DATA_DIR = os.path.abspath('./datasets/output/data_2.csv')
+df = pd.read_csv(DATA_DIR, index_col=0)
+df['id'] = df.index
+
+
+def item(id):
+    id = str(id)
+    return {
+        'text': df.loc[df['id'] == id]['text'].tolist()[0].split(' - ')[0],
+        'class': df.loc[df['id'] == id]['class'].tolist()[0].split(' - ')[0]
+    }
+
+
+def recommender(item_id, num):
+
+    recs = similarity_matrix[str(item_id)][:num]
+    return json.dumps(recs)
+
+
+@app.route('/',methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/api/classify',methods=['POST'])
+@app.route('/api/random-news',methods=['GET'])
+def random_news():
+    num = request.args.get('num') or 10
+    samples = df.sample(n=int(num),replace=True)
+    print(samples)
+    return {
+        'status': 'success',
+        'code': 200,
+        'data': samples.to_json()
+    }
+
+
+@app.route('/api/classify', methods=['POST'])
 def classify():
     try:
-        print(request.json)
         data = request.get_json(force=True)
 
         res = clf.predict([data['text']])[0]
 
         return {
-            'status':'success',
+            'status': 'success',
             'code': 200,
             'message': res
         }
     except Exception as e:
         return {
-            'status':'fail',
+            'status': 'fail',
             'code': 501,
-            "message":e
+            "message": e
         }
 
-@app.route('/api/recommend',methods=['POST'])
+
+@app.route('/api/recommend', methods=['POST'])
 def recommend():
     try:
-        data = json.loads(request.data)
-        res = clf.predict([data])[0]
-        
+
+        data = request.get_json(force=True)
+        print(data)
+        res = recommender(item_id=data['id'],num=data['num'])
+
         return {
-            'status':'success',
+            'status': 'success',
             'code': 200,
             'message': res
         }
     except Exception as e:
         return {
-            'status':'fail',
+            'status': 'fail',
             'code': 501,
-            "message":e
+            "message": e
         }
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

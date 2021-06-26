@@ -1,5 +1,27 @@
 
-GET http://localhost:3000/api/random-news
+GET http://localhost:5000/
+
+
+###
+
+GET http://localhost:5000/api/random-news?num=10
+
+// Response
+//Content-Type: json
+// {
+//  "code":<status_code>,
+//  "data": {
+//      class:{
+//          id: class_label
+//      },
+//      text:{
+//          id: text_
+//      }
+//
+//  }
+//}
+//
+
 
 ###
 POST http://localhost:5000/api/classify
@@ -11,8 +33,11 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/api/recommend
+POST http://localhost:5000/api/recommend
 
 {
- "id":id
-}
+ "id":"120",
+ "num":10 
+ }
+
+
