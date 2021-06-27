@@ -38,7 +38,7 @@ with open('./models/similarity_matrix.pkl', 'rb') as f:
     similarity_matrix = pickle.load(f)
 
 
-DATA_DIR = os.path.abspath('../datasets/output/data_2.csv')
+DATA_DIR = os.path.abspath('./datasets/output/data_2.csv')
 df = pd.read_csv(DATA_DIR, index_col=0)
 df['id'] = df.index
 

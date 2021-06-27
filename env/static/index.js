@@ -20,12 +20,24 @@ const handleRecommenderClick = async () => {
     const resData = await res.json();
     const parsedResData = JSON.parse(resData.data);
 
-    console.log(parsedResData);
-
-    Object.keys(parsedResData).map((key, index) => {
-        console.log(key, index, parsedResData[key]);
-        recommendationList.push(parsedResData[key]);
-    });
+    // console.log(parsedResData);
+    
+    // Object.keys(parsedResData.id).map((key, index) => {
+    //     console.log("BORRRU",key, index);
+    //     // recommendationList[]
+    //     // recommendationList.push(parsedResData[key]);
+    //     // console.log(recommendationList)
+    // });
+    Object.keys(parsedResData.id).forEach(id=>{
+        console.log(id)
+        recommendationList.push({
+            id : {
+                'text':parsedResData.text[id],
+                'class':parsedResData.class[id]
+            }
+        })
+    })
+    // console.log(Object.keys(parsedResData.id))
 
     console.log(recommendationList);
 };
