@@ -17,8 +17,9 @@ body {
   line-height: 1.6;
   font-family: var(--font);
   display: grid;
-  grid-template: 6.5rem 1fr 5rem/ 1fr;
+  grid-template: 6.5rem 1fr 5rem / auto;
   grid-template-areas: "header" "main" "footer";
+  justify-content: center;
   gap: 1rem;
   height: 100vh;
   overflow-x: hidden;
@@ -149,6 +150,7 @@ form {
   font-size: 1.1rem;
 }
 
+
 .recommender-content {
   color: var(--primary);
   display: flex;
@@ -164,28 +166,31 @@ form {
   padding: 0;
   color: var(--primary);
   counter-reset: list_no;
-  width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .recommender-content li {
-  display: inline-block;
-  width: 50px;
+  position: relative;
+  width: 56.5rem;
   background-color: var(--secondary);
   margin: 0.5rem 0rem;
   border-radius: var(--br-radius);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0rem 0.5rem 3.5rem;
   transition: transform 0.2s;
 }
 
 .recommender-content li::before {
   counter-increment: list_no;
-  content: counter(list_no) ": ";
+  content: counter(list_no);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-radius) 0rem 0rem var(--br-radius);
+  height: 100%;
+  width: 3rem;
+  background-color: var(--primary);
+  color: var(--secondary);
+  box-sizing: border-box;
+  padding: 0.6rem 0rem 0rem 1.2rem;
 }
 
 .recommender-content li:hover {
@@ -194,8 +199,11 @@ form {
 
 .recommender-content a {
   text-decoration: none;
+  display: block;
   color: var(--primary);
-  transform: scale(1, 1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .result-table {
