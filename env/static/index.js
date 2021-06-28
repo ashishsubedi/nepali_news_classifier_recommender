@@ -5,7 +5,6 @@ window.addEventListener("load", async () => {
     document.getElementById("classifier").click();
 });
 
-let recommendationList = [];
 const handleRecommenderClick = async () => {
     document.getElementById("c-content").style.visibility = "hidden";
     document.getElementById("r-content").style.visibility = "visible";
@@ -20,26 +19,23 @@ const handleRecommenderClick = async () => {
     const resData = await res.json();
     const parsedResData = JSON.parse(resData.data);
 
-    // console.log(parsedResData);
-    
-    // Object.keys(parsedResData.id).map((key, index) => {
-    //     console.log("BORRRU",key, index);
-    //     // recommendationList[]
-    //     // recommendationList.push(parsedResData[key]);
-    //     // console.log(recommendationList)
-    // });
-    Object.keys(parsedResData.id).forEach(id=>{
-        console.log(id)
-        recommendationList.push({
-            id : {
-                'text':parsedResData.text[id],
-                'class':parsedResData.class[id]
-            }
-        })
-    })
-    // console.log(Object.keys(parsedResData.id))
+    let recommendationList = [];
 
-    console.log(recommendationList);
+    Object.keys(parsedResData.id).forEach((id) => {
+        recommendationList.push({
+            id: {
+                text: parsedResData.text[id],
+                class: parsedResData.class[id],
+            },
+        });
+    });
+    recommendationList.map((item, index) => {
+        if (index <= 10) {
+            const content = `<strong>Category: ${item.id.class}</strong> <br><br>` + item.id.text;
+            document.getElementById(`${index + 1}`).children[0].innerHTML = content;
+            return;
+        }
+    });
 };
 
 const handleClassifierClick = async () => {
@@ -50,6 +46,8 @@ const handleClassifierClick = async () => {
 
 const handleClassifierSubmit = async (e) => {
     e.preventDefault();
+    document.getElementById("c-result").scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+
     const textInput = e.target.children[0].value;
 
     const res = await fetch(`${BASE_URL}/api/classify`, {
@@ -64,11 +62,58 @@ const handleClassifierSubmit = async (e) => {
     document.getElementById("c-result").innerHTML = "Classification: " + resData.message;
 };
 
-const handleRecommenderSubmit = () => {
-    const id = document.getElementById("recommender-form");
-    console.log(id);
+const genTableData = (num, item) => {
+    let table = document.getElementById("rt");
+
+    table.innerHTML = `<div class="result-header">Category</div>
+    <div class="result-header">News</div>
+    <div class="result-header">Score</div>`;
+
+    for (let i = 0; i < item.length; i++) {
+        table.innerHTML += `<div class="result" id="category">${item[i][2]}</div>
+        <div class="result" id="news">${item[i][1]}</div>
+        <div class="result" id="score">${item[i][0]}</div>`;
+    }
+};
+
+const handleRecommenderSubmit = async (e) => {
+    e.preventDefault();
+    e.target.style.whiteSpace = "normal";
+    document.getElementById("rt").scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+
+    const id = e.target.parentNode.getAttribute("id");
+    const res = await fetch(`${BASE_URL}/api/recommend`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            id,
+            num: 10,
+        }),
+    });
+
+    const resData = await res.json();
+    const parsedResData = JSON.parse(resData.message);
+    genTableData(10, parsedResData);
+};
+
+const handleLinkPressed = (e) => {
+    e.preventDefault();
+    e.target.style.whiteSpace = "normal";
 };
 
 document.getElementById("classifier").addEventListener("click", handleClassifierClick);
 document.getElementById("recommender").addEventListener("click", handleRecommenderClick);
 document.getElementById("form").addEventListener("submit", handleClassifierSubmit);
+
+document.querySelectorAll("#link").forEach((e) => {
+    e.addEventListener("click", handleLinkPressed);
+});
+document.querySelectorAll("#r-btn").forEach((e) => {
+    e.addEventListener("click", handleRecommenderSubmit);
+});
+
+// document.querySelectorAll("#link").forEach((e) => {
+//     e.addEventListener("click", handleRecommenderSubmit);
+// });

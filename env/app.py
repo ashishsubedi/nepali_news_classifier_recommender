@@ -38,7 +38,7 @@ with open('./models/similarity_matrix.pkl', 'rb') as f:
     similarity_matrix = pickle.load(f)
 
 
-DATA_DIR = os.path.abspath('./datasets/output/data_2.csv')
+DATA_DIR = os.path.abspath('../datasets/output/data_2.csv')
 df = pd.read_csv(DATA_DIR, index_col=0)
 df['id'] = df.index
 
@@ -54,6 +54,7 @@ def item(id):
 def recommender(item_id, num):
 
     recs = similarity_matrix[str(item_id)][:num]
+    print(json.dumps(recs))
     return json.dumps(recs)
 
 
@@ -67,7 +68,7 @@ def index():
 def random_news():
     num = request.args.get('num') or 10
     samples = df.sample(n=int(num),replace=True)
-    print(samples)
+    #print(samples)
     return {
         'status': 'success',
         'code': 200,

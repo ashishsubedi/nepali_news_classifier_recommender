@@ -1,81 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="../static/styles.css" />
-    <title>Nepali News Classifier and Recommender</title>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  </head>
-  <body>
-    <header>
-      <h2>Nepali News Classifier and Recommender</h2>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="../static/styles.css" />
+        <title>Nepali News Classifier and Recommender</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <h2>Nepali News Classifier and Recommender</h2>
+        </header>
 
-    <main>
-      <section class="nav-bar">
-        <button id="classifier" class="btn">Classifier</button>
-        <button id="recommender" class="btn">Recommender</button>
-      </section>
+        <main>
+            <section class="nav-bar">
+                <button id="classifier" class="btn">Classifier</button>
+                <button id="recommender" class="btn">Recommender</button>
+            </section>
 
-      <div
-        class="classifier-result"
-        id="c-result"
-        style="margin: 1rem 0;"
-      ></div>
+            <div class="classifier-result" id="c-result" style="margin: 1rem 0"></div>
 
-      <section class="classifier-content" id="c-content">
-        <form id="form" className="classifier-form">
-          <textarea
-            class="text-input"
-            placeholder="Enter text here"
-            required
-          ></textarea>
-          <input class="submit" type="submit" value="Submit" />
-        </form>
-      </section>
+            <section class="classifier-content" id="c-content">
+                <form id="form" className="classifier-form">
+                    <textarea class="text-input" placeholder="Enter text here" required></textarea>
+                    <input class="submit" type="submit" value="Submit" />
+                </form>
+            </section>
 
-      <section class="recommender-content" id="r-content">
-        <ul>
-          <li>
-            <a href="#">
-              Ipsum has been the industry's standard dummy text ever since the
-              1500s psum has been the psum The following example creates a
-              counter for the page (in the body selector), then increments the
-              counter value for each element and adds "Section " to the
-              beginning of each element:
-            </a>
-          </li>
-          <li><a href="#">Ipsum has been the industry's</a></li>
-          <li><a href="#">Ipsum has been the </a></li>
-          <li><a href="#">Ipsum has been the industry's</a></li>
-          <li><a href="#">Ipsum has been the industry's</a></li>
-        </ul>
-        <div class="result-table">
-          <div class="result-header">Category</div>
-          <div class="result-header">News</div>
-          <div class="result-header">Score</div>
-          <div class="result">Samachar</div>
-          <div class="result">
-            उपप्रधान तथा अर्थमन्त्री विष्णु पौडेलले आफ्नो चुनाव क्षेत्र लक्षित
-            कालीगण्डकी तिनाउ डाइभर्सन आयोजनालाई चलाखीपूर्ण तवरले अघि बढाउने भएका
-            छन् । आगामी आर्थिक वर्षको बजेटमा ‘आवश्यकताअनुसार रकम विनियोजन’ गर्ने
-            घोषणा गरिएको महत्त्वाकांक्षी आयोजनाको शनिबार बुटवलमा कार्यालय
-            खोलिएको छ । सरकार परिवर्तन भएको खण्डमा पनि आफूलाई दूर
-          </div>
-          <div class="result">0.2323</div>
-        </div>
-      </section>
-    </main>
+            <section class="recommender-content" id="r-content">
+                <ul>
+                    <li id="1"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="2"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="3"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="4"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="5"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="6"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="7"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="8"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="9"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                    <li id="10"><a id="link" href="#"> </a><button id="r-btn">More News</button></li>
+                </ul>
+                <div class="result-table" id="rt">
+                    <div class="result-header">Category</div>
+                    <div class="result-header">News</div>
+                    <div class="result-header">Score</div>
+                </div>
+            </section>
+        </main>
 
-    <footer>
-      <p class="footer-content">All rights reserved. bighead &copy;NNCAR</p>
-    </footer>
-  </body>
+        <footer>
+            <p class="footer-content">All rights reserved. bighead &copy;NNCAR</p>
+        </footer>
+    </body>
 
-  <script
-    type="module"
-    src="{{ url_for('static', filename='index.js')}}"
-  ></script>
+    <script type="module" src="{{ url_for('static', filename='index.js')}}"></script>
 </html>
