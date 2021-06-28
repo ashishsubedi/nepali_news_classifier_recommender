@@ -39,7 +39,7 @@ similarity_matrix = joblib.load('./models/similarity_matrix.joblib')
 #     similarity_matrix = pickle.load(f)
 
 
-DATA_DIR = os.path.abspath('../datasets/output/data_2.csv')
+DATA_DIR = os.path.abspath('./datasets/output/data_2.csv')
 df = pd.read_csv(DATA_DIR, index_col=0)
 df['id'] = df.index
 
