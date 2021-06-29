@@ -120,7 +120,7 @@ form {
 
 .text-input {
     resize: none;
-    height: 90%;
+    height: 25rem;
     width: 100%;
     box-sizing: border-box;
     padding: 2rem;
